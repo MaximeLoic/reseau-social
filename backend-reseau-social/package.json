@@ -2,7 +2,7 @@
   "name": "reseau-social",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "tsc",
@@ -22,11 +22,15 @@
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/client-preset": "^4.2.5",
     "@graphql-codegen/typescript": "^4.0.6",
     "@graphql-codegen/typescript-resolvers": "^4.0.6",
     "@types/node": "^20.12.7",
     "prisma": "^5.12.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
+  },
+  "resolutions": {
+    "graphql": "^16.8.1"
   }
 }
