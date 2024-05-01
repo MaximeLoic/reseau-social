@@ -34,4 +34,3 @@ export type Like = {
   user?: User;
   article?: Article;
 }
-
