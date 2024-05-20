@@ -9,10 +9,10 @@ const config: CodegenConfig = {
       config: {
         contextType: './context#DataSourceContext',
         mappers: {
-          User: './models#User',
-          Article: './models#Article',
-          Comment: './models#Comment',
-          Like: './models#Like',
+         User : './src/models.ts#User',
+            Article : './src/models.ts#Article',
+            Comment : './src/models.ts#Comment',
+            Like : './src/models.ts#Like',
         }
       }
     }
