@@ -1,7 +1,3 @@
-import gql from "graphql-tag";
-
-export const typeDefs = gql
-
 
 export type  User = {
     id: number;
@@ -21,7 +17,7 @@ export type Article = {
     likes?: Like[];
 }
 
-type Comment = {
+export type Comment = {
     id: number;
     content: string;
     authorId: number;
@@ -29,7 +25,7 @@ type Comment = {
     author?: User;
 }
 
-type Like = {
+export type Like = {
     id: number;
     userId: number;
     articleId: number;

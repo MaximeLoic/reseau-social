@@ -1,12 +1,10 @@
-import { hashPassword } from "../../modules/auth";
-import { MutationResolvers } from "../../types";
+import {hashPassword} from "../../modules/auth.js";
+import {MutationResolvers} from "../../types.js";
 
-export const createUser: MutationResolvers['createUser'] = async (_, {email, name, password}, {dataSources}) => {
+export const createUser: MutationResolvers['createUser'] = async (_, {username, email, password}, {dataSources}) => {
     try {
-        const hashedPassword = await hashPassword(password);
         const createdUser = await dataSources.db.user.create({
-            computed: undefined, methods: undefined, watch: undefined,
-            data: {email, name, password: hashedPassword}
+            data: {username, email, password: await hashPassword(password)},
         });
 
         return {
@@ -15,13 +13,14 @@ export const createUser: MutationResolvers['createUser'] = async (_, {email, nam
             success: true,
             user: {
                 id: createdUser.id,
+                username: createdUser.username,
                 email: createdUser.email,
-                name: createdUser.name,
-                posts: [],
-                postsLike: []
+                articles: [],
+                comments: [],
+                likes: []
             }
         }
-    } catch(e) {
+    } catch (e) {
         return {
             code: 400,
             message: (e as Error).message,

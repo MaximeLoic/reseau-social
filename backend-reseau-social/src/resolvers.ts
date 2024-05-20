@@ -1,31 +1,31 @@
-import { Resolver } from "./types.ts";
+import { Resolvers } from "./types";
+import { GraphQLError } from "graphql";
+import { createUser } from "./mutations/users/createUser";
+import { signIn } from "./mutations/users/signIn";
+import { MutationResolvers } from "./types";
 
-type Context = {
-    prisma: {
-        user: {
-            findMany: () => Promise<any>;
-            create: (args: { data: { email: string } }) => Promise<any>;
-        };
-    };
-};
-
-type Args = {
-    email: string;
-};
-
-export const resolvers: Resolver<any, any, Context, any> = {
+export const resolvers: Resolvers = {
     Query: {
-        users: async (_, __, context) => {
-            return context.prisma.user.findMany();
-        },
+        getUsers: async (_, __, { prisma }) => {
+            return prisma.user.findMany();
+        }
     },
     Mutation: {
-        createUser: async (_, args: Args, context) => {
-            return context.prisma.user.create({
+        createArticle: async (_, { authorId, content, title }, { prisma }) => {
+            return prisma.article.create({
                 data: {
-                    email: args.email,
+                    authorId,
+                    content,
+                    title,
                 },
             });
         },
+        deleteArticle: async (_, { id }, { prisma }) => {
+            await prisma.article.delete({ where: { id } });
+            return true;
+        },
+        createUser: createUser,
+        signIn: signIn
     },
+
 };

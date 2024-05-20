@@ -13,16 +13,17 @@ type Query {
 }
 
 type Mutation {
-  createUser(username: String!, password: String!): User!
-  signIn(email: String!, password: String!): SignInResponse!
+  signIn(username: String!, password: String!): SignInResponse
   createArticle(title: String!, content: String!, authorId: Int!): Article!
   updateArticle(id: ID!): Article!
   deleteArticle(id: ID!): Boolean!
+  createUser(username: String!, email: String!, password: String!): CreateUserResponse
 }
 
 type User {
   id: ID!
   username: String!
+  email: String!
   articles: [Article]!
   likes: [Like]!
   comments: [Comment]!
@@ -56,6 +57,16 @@ type Like {
 }
 
 type SignInResponse {
-  authorisation: String!
-}
+    code: Int!
+    success: Boolean!
+    message: String!
+    token: String
+    }
+    
+ type CreateUserResponse {
+    code: Int!
+    success: Boolean!
+    message: String!
+    user: User
+    }
 `
