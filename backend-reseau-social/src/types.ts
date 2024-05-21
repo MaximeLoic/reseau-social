@@ -64,11 +64,22 @@ export type Like = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  comment: Scalars['Boolean']['output'];
   createArticle?: Maybe<CreateArticleResponse>;
   createUser?: Maybe<CreateUserResponse>;
   deleteArticle: Scalars['Boolean']['output'];
+  dislike: Scalars['Boolean']['output'];
+  like: Scalars['Boolean']['output'];
   signIn?: Maybe<SignInResponse>;
-  updateArticle: Article;
+  uncomment: Scalars['Boolean']['output'];
+  updateArticle?: Maybe<UpdateArticleResponse>;
+};
+
+
+export type MutationCommentArgs = {
+  articleId: Scalars['Int']['input'];
+  content: Scalars['String']['input'];
+  userId: Scalars['Int']['input'];
 };
 
 
@@ -91,14 +102,34 @@ export type MutationDeleteArticleArgs = {
 };
 
 
+export type MutationDislikeArgs = {
+  articleId: Scalars['Int']['input'];
+  userId: Scalars['Int']['input'];
+};
+
+
+export type MutationLikeArgs = {
+  articleId: Scalars['Int']['input'];
+  userId: Scalars['Int']['input'];
+};
+
+
 export type MutationSignInArgs = {
   password: Scalars['String']['input'];
   username: Scalars['String']['input'];
 };
 
 
+export type MutationUncommentArgs = {
+  commentId: Scalars['Int']['input'];
+  userId: Scalars['Int']['input'];
+};
+
+
 export type MutationUpdateArticleArgs = {
+  content: Scalars['String']['input'];
   id: Scalars['ID']['input'];
+  title: Scalars['String']['input'];
 };
 
 export type Query = {
@@ -137,6 +168,14 @@ export type SignInResponse = {
   message: Scalars['String']['output'];
   success: Scalars['Boolean']['output'];
   token?: Maybe<Scalars['String']['output']>;
+};
+
+export type UpdateArticleResponse = {
+  __typename?: 'UpdateArticleResponse';
+  article?: Maybe<Article>;
+  code: Scalars['Int']['output'];
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
 };
 
 export type User = {
@@ -232,6 +271,7 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   SignInResponse: ResolverTypeWrapper<SignInResponse>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  UpdateArticleResponse: ResolverTypeWrapper<UpdateArticleResponse>;
   User: ResolverTypeWrapper<User>;
 };
 
@@ -249,6 +289,7 @@ export type ResolversParentTypes = {
   Query: {};
   SignInResponse: SignInResponse;
   String: Scalars['String']['output'];
+  UpdateArticleResponse: UpdateArticleResponse;
   User: User;
 };
 
@@ -299,11 +340,15 @@ export type LikeResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  comment?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationCommentArgs, 'articleId' | 'content' | 'userId'>>;
   createArticle?: Resolver<Maybe<ResolversTypes['CreateArticleResponse']>, ParentType, ContextType, RequireFields<MutationCreateArticleArgs, 'authorId' | 'content' | 'title'>>;
   createUser?: Resolver<Maybe<ResolversTypes['CreateUserResponse']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'email' | 'password' | 'username'>>;
   deleteArticle?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteArticleArgs, 'id'>>;
+  dislike?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDislikeArgs, 'articleId' | 'userId'>>;
+  like?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationLikeArgs, 'articleId' | 'userId'>>;
   signIn?: Resolver<Maybe<ResolversTypes['SignInResponse']>, ParentType, ContextType, RequireFields<MutationSignInArgs, 'password' | 'username'>>;
-  updateArticle?: Resolver<ResolversTypes['Article'], ParentType, ContextType, RequireFields<MutationUpdateArticleArgs, 'id'>>;
+  uncomment?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationUncommentArgs, 'commentId' | 'userId'>>;
+  updateArticle?: Resolver<Maybe<ResolversTypes['UpdateArticleResponse']>, ParentType, ContextType, RequireFields<MutationUpdateArticleArgs, 'content' | 'id' | 'title'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -320,6 +365,14 @@ export type SignInResponseResolvers<ContextType = any, ParentType extends Resolv
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type UpdateArticleResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['UpdateArticleResponse'] = ResolversParentTypes['UpdateArticleResponse']> = {
+  article?: Resolver<Maybe<ResolversTypes['Article']>, ParentType, ContextType>;
+  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -342,6 +395,7 @@ export type Resolvers<ContextType = any> = {
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SignInResponse?: SignInResponseResolvers<ContextType>;
+  UpdateArticleResponse?: UpdateArticleResponseResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };
 
