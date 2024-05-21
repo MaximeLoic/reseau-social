@@ -1,29 +1,25 @@
-import {ApolloServer, gql} from 'apollo-server';
-import {PrismaClient} from '@prisma/client';
+import { ApolloServer } from 'apollo-server';
+import { resolvers } from './resolvers.js';
+import { getUser } from './modules/auth.js';
+import { typeDefs } from './schema.js';
+import db from './datasources/db.js';
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import {resolvers} from './resolvers';
-import { getUser } from "./modules/auth.js";
-import { typeDefs } from "./schema.js";
-
-const prisma = new PrismaClient();
-const SECRET = 'test';
 
 const server = new ApolloServer({
     typeDefs,
     resolvers,
-
-    context: async ({req}) => {
-
-        const token = (req.headers.authorization)?.split('Bearer ')?.[1]
-        const user = token ? getUser(token) : null
+    context: ({ req }) => {
+        const token = req.headers.authorization || '';
         try {
-            return {user};
+            const user = getUser(token);
+            return { user, db, bcrypt, jwt };
         } catch {
             return {};
         }
     },
 });
 
-server.listen().then(({url}) => {
+server.listen().then(({ url }) => {
     console.log(`🚀 Server ready at ${url}`);
 });

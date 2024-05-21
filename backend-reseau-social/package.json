@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "tsc",
-    "start": "npm run compile && node ./dist/index.js",
+    "start": "node --import ./scripts/register.js --watch src/index.ts",
     "dev": "node --import ./scripts/register.js --watch src/index.ts",
     "generate": "graphql-codegen",
     "prisma": "prisma"

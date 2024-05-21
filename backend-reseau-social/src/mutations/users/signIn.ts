@@ -16,7 +16,7 @@ export const signIn: MutationResolvers['signIn'] = async (_, {username, password
         return {
             code: 200,
             message: 'User signed in',
-            token: createJWT({username: user.username, id: user.id}),
+            token: createJWT({username: user.username, id: user.id, email: user.email}),
             success: isValidPassword
         }
     } catch(e) {

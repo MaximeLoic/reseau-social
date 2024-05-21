@@ -2,7 +2,7 @@ import {User} from '@prisma/client'
 import jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
 
-export type JWTUser = Pick<User, 'id' | 'username'>;
+export type JWTUser = Pick<User, 'id' | 'username' | 'email'>;
 
 export const createJWT = (user: JWTUser): string => {
     const token = jwt.sign(user, process.env.JWT_SECRET as string)

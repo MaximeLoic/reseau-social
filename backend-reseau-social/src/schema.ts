@@ -8,13 +8,13 @@ type Query {
   getUser(id: ID!): User
   getArticles: [Article]!
   getArticle(id: ID!): Article
-  getComments(postid: ID!): [Comment]!
+  getComments(articleId: ID!): [Comment]!
   getComment(id: ID!): Comment
 }
 
 type Mutation {
   signIn(username: String!, password: String!): SignInResponse
-  createArticle(title: String!, content: String!, authorId: Int!): Article!
+  createArticle(title: String!, content: String!, authorId: Int!): CreateArticleResponse
   updateArticle(id: ID!): Article!
   deleteArticle(id: ID!): Boolean!
   createUser(username: String!, email: String!, password: String!): CreateUserResponse
@@ -64,9 +64,16 @@ type SignInResponse {
     }
     
  type CreateUserResponse {
-    code: Int!
+   code: Int!
     success: Boolean!
     message: String!
     user: User
     }
+
+type CreateArticleResponse {
+    code: Int!
+    success: Boolean!
+    message: String!
+    article: Article
+}
 `
